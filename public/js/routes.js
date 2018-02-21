@@ -81,6 +81,55 @@ angular
       }]
     }
   })
+  .state('app.users', {
+      url: '/users',
+      templateUrl: 'views/users.html',
+      //page title goes here
+      ncyBreadcrumb: {
+          label: 'Users',
+      },
+      //page subtitle goes here
+      params: { subtitle: 'Simple Artical Management System' },
+      resolve: {
+          loadPlugin: ['$ocLazyLoad', function ($ocLazyLoad) {
+              // you can lazy load files for an existing module
+              return $ocLazyLoad.load([
+                  {
+                      serie: true,
+                      name: 'chart.js',
+                      files: [
+                          'bower_components/chart.js/dist/Chart.min.js',
+                          'bower_components/angular-chart.js/dist/angular-chart.min.js'
+                      ]
+                  },
+              ]);
+          }],
+          loadMyCtrl: ['$ocLazyLoad', function($ocLazyLoad) {
+              // you can lazy load controllers
+              return $ocLazyLoad.load({
+                  files: ['js/controllers/users.js']
+              });
+          }]
+      }
+  })
+  .state('app.posts', {
+      url: '/posts',
+      templateUrl: 'views/posts.html',
+      //page title goes here
+      ncyBreadcrumb: {
+          label: 'Posts'
+      },
+      //page subtitle goes here
+      params: { subtitle: 'Simple Artical Management System' },
+      resolve: {
+          loadMyCtrl: ['$ocLazyLoad', function($ocLazyLoad) {
+              // you can lazy load controllers
+              return $ocLazyLoad.load({
+                  files: ['js/controllers/posts.js']
+              });
+          }]
+      }
+  })
   .state('appSimple', {
     abstract: true,
     templateUrl: 'views/common/layouts/simple.html',
