@@ -1,23 +1,69 @@
-<div class="animated fadeIn" ng-controller="postsCtrl" >
-    <div class="row">
-        <div class="col-sm-12 col-md-3">
-            <button type="button" class="btn btn-primary btn-lg">Create</button>
-        </div>
-    </div>
-    <br>
+<div ng-controller="postsCtrl">
 
-    <div class="row" ng-repeat="post in posts">
-        <div class="col-sm-6 col-md-4">
-            <div class="card">
-                <img class="card-img-top" src="{{ post.cover_img }}" alt="{{ post.title }}">
-                <div class="card-block">
-                    <div>
-                        <h4 class="card-title">{{ post.title }}</h4>
+    <div class="animated fadeIn">
+        <div class="row">
+            <div class="col-sm-12 col-md-3">
+                <button type="button" class="btn btn-primary btn-lg" data-toggle="modal" data-target="#postModal">Create</button>
+            </div>
+        </div>
+        <br>
+
+        <div class="row" ng-repeat="post in posts">
+            <div class="col-sm-6 col-md-4">
+                <div class="card">
+                    <img class="card-img-top" src="{{ post.cover_img }}" alt="{{ post.title }}">
+                    <div class="card-block">
+                        <div>
+                            <h4 class="card-title">{{ post.title }}</h4>
+                        </div>
+                        <p class="card-text">{{ post.body }}</p>
                     </div>
-                    <p class="card-text">{{ post.body }}</p>
                 </div>
             </div>
         </div>
+        <!--/.row-->
     </div>
-    <!--/.row-->
+
+    <div class="modal fade" id="postModal" tabindex="-1" role="dialog" aria-labelledby="postModalLabel" aria-hidden="true">
+        <div class="modal-dialog modal-lg" role="document">
+            <div class="modal-content">
+                <div class="modal-header">
+                    <h5 class="modal-title" id="postModalLabel">Create new post</h5>
+                    <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                        <span aria-hidden="true">&times;</span>
+                    </button>
+                </div>
+                <form ng-init="newpost = {}" name="myForm">
+                    <div class="modal-body">
+                        <input type="hidden" value="1" ng-model="newpost.user_id">
+                        <div class="form-group">
+                            <label for="title">Title</label>
+                            <input type="text" ng-model="newpost.title" class="form-control" id="title" placeholder="Title" required>
+                            <p ng-if="!newpost.title" style="color: red">Title is required!</p>
+                        </div>
+                        <div class="form-group">
+                            <textarea ng-model="newpost.body" class="form-control" id="body" required minlength="10" maxlength="200" rows="10"></textarea>
+                        </div>
+                        <div class="form-group">
+                            <label for="cover_img">Cover</label>
+                            <input type="file" ngf-select ng-model="picFile" name="file" id="cover_img"
+                                   accept="image/*" ngf-max-size="2MB" required
+                                   ngf-model-invalid="errorFile">
+                            <br>
+                            <img ng-show="myForm.file.$valid" ngf-thumbnail="picFile" class="thumb" height="150px">
+                            <br>
+                            <button ng-click="picFile = null" ng-show="picFile">Remove</button>
+                            <i ng-show="myForm.file.$error.maxSize">File too large
+                                {{errorFile.size / 1000000|number:1}}MB: max 2M</i>
+                        </div>
+                    </div>
+                    <div class="modal-footer">
+                        <button type="button" class="btn btn-secondary" data-dismiss="modal">Close</button>
+                        <button type="button" class="btn btn-primary" ng-disabled="!myForm.$valid" ng-click="uploadPic(picFile)">Create</button>
+                    </div>
+                </form>
+
+            </div>
+        </div>
+    </div>
 </div>

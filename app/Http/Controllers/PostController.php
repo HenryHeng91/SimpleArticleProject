@@ -40,9 +40,26 @@ class PostController extends Controller
     {
         $this->doValidation($request);
 
-        return $request->user()->videos()->create(
-            $request->only((new \App\Models\Post)->getFillable())
-        );
+        $file = $request->file('file');
+        $filename = "";
+        if ($file){
+            $destinationPath = public_path('img/posts/');
+            $filename = uniqid().'.'.$file->getClientOriginalExtension();
+            $file->move($destinationPath, $filename);
+        }
+
+        $post = new Post();
+        $post->title = $request->title;
+        $post->body = $request->body;
+        $post->cover_img = asset("img/posts/$filename");
+        $post->user_id = 1;
+        $post->save();
+
+        return response($post, 200);
+
+//        return $request->user()->videos()->create(
+//            $request->only((new \App\Models\Post)->getFillable())
+//        );
     }
 
     /**

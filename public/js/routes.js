@@ -122,6 +122,18 @@ angular
       //page subtitle goes here
       params: { subtitle: 'Simple Artical Management System' },
       resolve: {
+          loadPlugin: ['$ocLazyLoad', function ($ocLazyLoad) {
+              // you can lazy load files for an existing module
+              return $ocLazyLoad.load([
+                  {
+                      serie: true,
+                      name: 'posts.js',
+                      files: [
+                          'bower_components/ng-file-upload/ng-file-upload.min.js',
+                      ]
+                  },
+              ]);
+          }],
           loadMyCtrl: ['$ocLazyLoad', function($ocLazyLoad) {
               // you can lazy load controllers
               return $ocLazyLoad.load({

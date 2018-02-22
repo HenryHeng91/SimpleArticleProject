@@ -23,7 +23,6 @@ class Post extends Model
         return [
             'title' => 'required|max:200',
             'body' => 'required|min:10',
-            'cover_img' => 'required',
         ];
     }
 }
