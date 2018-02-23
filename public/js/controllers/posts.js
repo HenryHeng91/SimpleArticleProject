@@ -35,7 +35,6 @@ function postsCtrl($scope, $http, Upload, $timeout) {
         });
 
         file.upload.then(function (response) {
-            debugger;
             $timeout(function () {
                 file.result = response.data;
                 $scope.posts.push(response.data)
@@ -43,7 +42,6 @@ function postsCtrl($scope, $http, Upload, $timeout) {
                 $('#postModal').modal('hide');
             });
         }, function (response) {
-            debugger;
             if (response.status > 0){
                 $scope.errorMsg = response.status + ': ' + response.data;
                 alert(response.data.error)
